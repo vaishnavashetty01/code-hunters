@@ -2,5 +2,5 @@ ultralytics
 opencv-python==4.10.0.84
 paho-mqtt==2.1.0
 google-genai
-python-dotenv==1.0.1
+python-dotenv==1.2.2
 numpy>=2.1.0
