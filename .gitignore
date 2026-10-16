@@ -1,0 +1,4 @@
+/recordings/
+/recordings.sqlite3*
+/twin_data.json
+/__pycache__/

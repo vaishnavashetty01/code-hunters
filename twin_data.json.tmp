@@ -1,0 +1,29 @@
+{
+    "timestamp": 1792144621.6021085,
+    "sectors": {
+        "Academic_Block_A": {
+            "water_flow_rate_lmin": 0.8,
+            "energy_consumption_kwh": 58.2,
+            "waste_bin_overflowing": false,
+            "empty_room_lights_on": true,
+            "last_updated": 1792144329.112967,
+            "latest_ai_report": null
+        },
+        "Hostel_Block_B": {
+            "water_flow_rate_lmin": 2.1,
+            "energy_consumption_kwh": 12.4,
+            "waste_bin_overflowing": false,
+            "empty_room_lights_on": false,
+            "last_updated": 1792144621.6021085,
+            "latest_ai_report": null
+        },
+        "Central_Cafeteria": {
+            "water_flow_rate_lmin": 4.2,
+            "energy_consumption_kwh": 22.1,
+            "waste_bin_overflowing": true,
+            "empty_room_lights_on": false,
+            "last_updated": 1792144329.112967,
+            "latest_ai_report": null
+        }
+    }
+}

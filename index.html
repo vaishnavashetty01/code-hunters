@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#071713">
+    <title>CanopyQ | Smart Campus Intelligence</title>
+    <link rel="stylesheet" href="css/core.css">
+    <script src="js/core.js" defer></script>
+</head>
+<body>
+    <main class="login-screen" id="login-view">
+        <section class="login-card">
+            <a class="wordmark" href="index.html"><span class="brand-mark">Q</span> CANOPYQ</a>
+            <p class="eyebrow">CanopyQ campus intelligence</p>
+            <h1>Welcome to your<br>campus control plane.</h1>
+            <p class="login-copy">Sign in to monitor live building telemetry, environmental alerts, and AI-generated facility briefs.</p>
+            <form id="auth-form">
+                <label for="user-role">Access role</label>
+                <select id="user-role" name="role">
+                    <option value="admin">Administrator · full dashboard access</option>
+                    <option value="lecturer">Lecturer · full control and camera access</option>
+                    <option value="council">Student council · telemetry and camera view</option>
+                    <option value="student">Student · telemetry only</option>
+                </select>
+                <label for="user-pass">Admin / demo code</label>
+                <input id="user-pass" name="passcode" type="text" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="Type admin or demo" required>
+                <p class="form-hint">Demo codes: <strong>admin</strong> or <strong>demo</strong> (not case-sensitive).</p>
+                <button class="button button-primary login-submit" type="submit">Open campus dashboard <span aria-hidden="true">↗</span></button>
+                <p class="form-error" id="login-error" role="alert" hidden></p>
+            </form>
+            <p class="login-footnote">Local demonstration interface · No account data is sent.</p>
+        </section>
+        <aside class="login-art" aria-label="Campus monitoring preview">
+            <div class="art-orbit orbit-one"></div>
+            <div class="art-orbit orbit-two"></div>
+            <div class="art-sun"></div>
+            <div class="art-building building-one"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            <div class="art-building building-two"><i></i><i></i><i></i><i></i></div>
+            <div class="art-ground"></div>
+            <div class="art-caption"><span class="status-dot"></span> LIVE DIGITAL TWIN <span>·</span> CAMPUS NETWORK</div>
+            <div class="art-stat"><span>ACTIVE ZONES</span><strong>03</strong><small>Buildings monitored</small></div>
+            <div class="art-message"><span class="message-icon">↗</span><span><strong>Campus intelligence</strong><small>People, energy, and resources in sync</small></span></div>
+        </aside>
+    </main>
+
+    <div class="app-shell" id="dashboard-view" hidden>
+        <div class="main-column">
+            <header class="topbar">
+                <a class="wordmark" href="index.html"><span class="brand-mark">Q</span> CANOPYQ</a>
+                <nav class="main-nav" aria-label="Campus navigation">
+                    <a class="main-nav-link active" href="index.html">Dashboard</a>
+                    <a class="main-nav-link" data-roles="admin,council,student" href="site/index.html">Energy</a>
+                    <a class="main-nav-link" data-roles="admin,lecturer,council,student" href="site/campus.html">Buildings</a>
+                    <a class="main-nav-link" data-roles="admin,council" href="site/microgrid.html">Microgrid</a>
+                    <a class="main-nav-link" data-roles="admin,council,student" href="site/scheduler.html">Carbon</a>
+                    <a class="main-nav-link" data-roles="admin,lecturer" href="site/architecture.html">Architecture</a>
+                </nav>
+                <div class="topbar-actions">
+                    <span class="role-pill" id="role-badge">Role</span>
+                    <span class="sync-pill" id="sync-indicator"><i></i><span id="sync-label">Waiting for telemetry</span></span>
+                    <button class="button button-quiet" id="logout-button" type="button">Sign out</button>
+                </div>
+            </header>
+            <main class="dashboard-content">
+                <section class="welcome-row">
+                    <div>
+                        <p class="eyebrow">CAMPUS OPERATIONS <span class="eyebrow-line"></span> LIVE DIGITAL TWIN</p>
+                        <h1 id="welcome-title">Good day. <span>Here’s your campus.</span></h1>
+                        <p class="welcome-copy" id="welcome-copy">A live view of building health, resource use, and the actions that keep your campus running sustainably.</p>
+                    </div>
+                    <a class="button button-outline" href="site/index.html">Explore the simulation <span aria-hidden="true">↗</span></a>
+                </section>
+
+                <section class="metric-grid" id="overview-metrics" aria-label="Campus summary"></section>
+
+                <div class="content-grid">
+                    <section class="section-card sector-section" data-panel="facilities">
+                        <div class="section-heading">
+                            <div><p class="eyebrow" id="facilities-eyebrow">FACILITIES</p><h2 id="facilities-title">Building telemetry</h2></div>
+                            <span class="section-meta" id="zone-count">0 monitored zones</span>
+                        </div>
+                        <div class="sector-grid" id="sectors-grid" aria-live="polite"></div>
+                    </section>
+
+                    <section class="section-card briefs-section" data-panel="briefs">
+                        <div class="section-heading">
+                            <div><p class="eyebrow">GEMINI AI ENGINE</p><h2 id="briefs-title">Actionable briefs</h2></div>
+                            <span class="ai-badge">AI</span>
+                        </div>
+                        <p class="section-description">Practical facilities guidance generated from the latest campus signals.</p>
+                        <div class="briefs-list" id="briefs-container" aria-live="polite">
+                            <p class="empty-state">Waiting for campus telemetry…</p>
+                        </div>
+                    </section>
+
+                    <section class="section-card camera-section" id="camera-access-panel" data-panel="camera" hidden>
+                        <div class="section-heading">
+                            <div><p class="eyebrow">EDGE VISION</p><h2>Camera node</h2></div>
+                            <span class="live-tag"><i></i> LOCAL CAMERA</span>
+                        </div>
+                        <div class="camera-preview">
+                            <img id="live-camera-feed" alt="Live local campus camera feed" hidden>
+                            <span class="recording-badge" id="recording-indicator" hidden>● RECORDING</span>
+                            <div class="camera-placeholder" id="camera-placeholder">
+                                <span class="camera-symbol">⌁</span>
+                                <p id="camera-feed-status">Camera is off. Click Start camera when you are ready.</p>
+                            </div>
+                        </div>
+                        <div class="camera-controls">
+                            <button class="camera-button" id="camera-toggle" type="button">Start camera</button>
+                            <span class="camera-note" id="camera-control-note">Camera stays off until you start it.</span>
+                        </div>
+                        <div class="recording-controls" id="recording-controls" hidden>
+                            <button class="camera-button recording-button" id="recording-toggle" type="button">Start class recording</button>
+                            <p class="camera-privacy-note" id="recording-status" role="status" aria-live="polite">Recording is off. Start the camera before recording a class.</p>
+                            <p class="camera-privacy-note">Before recording, announce it and follow campus consent and retention rules. Video is saved on this computer until manually deleted.</p>
+                        </div>
+                        <p class="camera-observation" id="camera-observation" role="status" aria-live="polite">Start the camera to run an anonymous scene check.</p>
+                        <p class="camera-privacy-note">This model can only flag a possible bottle or cup in the lower image area for staff review. It cannot confirm littering or detect property damage. It does not recognize faces, track identities, record attendance, or save camera images.</p>
+                        <p class="camera-note">Available to administrators, lecturers, and student council members. The feed is processed locally on this computer.</p>
+                    </section>
+
+                    <section class="section-card recordings-section" data-panel="recordings">
+                        <div class="section-heading">
+                            <div><p class="eyebrow">CLASS MATERIALS</p><h2>Missed class recordings</h2></div>
+                            <span class="activity-icon">▶</span>
+                        </div>
+                        <p class="section-description">Lecturer-published, video-only class sessions available on this computer.</p>
+                        <div class="recording-list" id="recording-list" aria-live="polite">
+                            <p class="empty-state">Loading available class recordings…</p>
+                        </div>
+                    </section>
+
+                    <section class="section-card system-section" data-panel="system">
+                        <div class="section-heading">
+                            <div><p class="eyebrow">SYSTEM ACTIVITY</p><h2>Connection status</h2></div>
+                            <span class="activity-icon">↗</span>
+                        </div>
+                        <p id="system-status-msg" class="system-message" role="status">Sign in to begin syncing campus telemetry.</p>
+                        <div class="updated-row"><span>Last data update</span><strong id="last-updated">—</strong></div>
+                        <a class="text-link" data-roles="admin,lecturer" href="site/architecture.html">How this campus model works <span aria-hidden="true">→</span></a>
+                    </section>
+                </div>
+                <footer class="dashboard-footer"><span>CanopyQ · Smart campus intelligence</span><span>Simulation models are illustrative, not forecasts.</span></footer>
+            </main>
+        </div>
+    </div>
+</body>
+</html>
